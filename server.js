@@ -32,6 +32,15 @@ app.get('/roll/:num', (req, res) => {
 //section 3
 
 
-app.get('/collectibles/:selection', (req, res) => {
-    res.send(`<h1>So you want the ${}`)
-})  
+app.get('/collectibles', (req, res) => {
+    const select = req.query.select;
+    if (select === '0') {
+        res.send(`So you want the ${collectibles[0].name}? That will be $${collectibles[0].price}please!`);
+    }
+    if (select === '1') {
+        res.send(`So you want the ${collectibles[1].name}? That will be $${collectibles[1].price}please!`);
+    }
+    if (select === '2') {
+        res.send(`So you want the ${collectibles[2].name}? That will be $${collectibles[2].price}please!`);
+    }
+})
