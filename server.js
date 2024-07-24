@@ -24,6 +24,7 @@ app.get('/greetings/:name', (req, res) => {
     res.send(`<h1>Hello ${req.params.name} how are you today?`)
 })
 
+
 //section 2
 app.get('/roll/:num', (req, res) => {
     res.send(`<h1>You rolled a  ${Math.floor(Math.random()*(req.params.num-0))}`)
@@ -32,15 +33,30 @@ app.get('/roll/:num', (req, res) => {
 //section 3
 
 
-app.get('/collectibles', (req, res) => {
-    const select = req.query.select;
-    if (select === '0') {
-        res.send(`So you want the ${collectibles[0].name}? That will be $${collectibles[0].price}please!`);
+app.get('/collectibles/:idx', (req, res) => {
+    const select = req.params.idx;
+    const coll = collectibles[select]
+    res.send(`So you want the ${coll.name}? That will be $${coll.price}please!`);
+})
+
+
+//section 4
+app.get('/shoes', (req, res) => {
+    const min_price = parseFloat(req.query.min_price);
+    const max_price = parseFloat(req.query.max_price);
+    const type= req.query.type;
+    let list = [...shoes]
+    if(type){
+        list = list.filter(shoe => shoe.type === type)
     }
-    if (select === '1') {
-        res.send(`So you want the ${collectibles[1].name}? That will be $${collectibles[1].price}please!`);
+    if(min_price){
+        list = list.filter(shoe => shoe.price >= min_price)
     }
-    if (select === '2') {
-        res.send(`So you want the ${collectibles[2].name}? That will be $${collectibles[2].price}please!`);
+    if(max_price){
+        list = list.filter(shoe => shoe.price <= max_price)
     }
+    res.send(list)
+    
+    
+    
 })
